@@ -1,3 +1,10 @@
+# About this fork
+
+This fork is made to work with nmap's netcat `ncat`
+
+This is because on Arch `gnu-netcat` does not support `-k` option
+but `ncat` does. (`pacman -S nmap`)
+
 # Firefox Web Extension for Triggered Reloading of Tabs
 
 This repository contains an experimental web extension (Addon) for Firefox V59+,
@@ -22,9 +29,9 @@ Basic mechanics:
   triggers a reload of all tabs on which it is currently enabled and for which
   the received match string matches the URI.
 
-The native application spawned by the extension is simply netcat (`nc`), which
+The native application spawned by the extension is simply netcat (`ncat`), which
 must be available on the users path. Netcat is simply started with the command
-line `nc -kl 43434` which then does all that's required.
+line `nccat -kl 43434` which then does all that's required.
 
 
 ## Installation & Test
@@ -53,8 +60,10 @@ Linux.)
 - Register the native part of the extension with:
 
   ```bash
-  cp native/triggered.reload.json ~/Library/Application\ Support/Mozilla/NativeMessagingHosts/
+  cp native/triggered.reload.json <firefox_native_dir>
   ```
+
+  where `<firefox_native_dir>` can be found [here](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_manifests#manifest_location)
 
 - open a new tab in Firefox and type `about:debugging` into the address bar
 
@@ -69,7 +78,7 @@ Linux.)
 - run this command from any shell to trigger a reload:
 
   ```bash
-  printf '\14\0\0\0"<all_urls>"' | nc 127.0.0.1 43434
+  printf '\14\0\0\0"<all_urls>"' | ncat 127.0.0.1 43434
   ```
 
 
